@@ -1,0 +1,594 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>?ㅽ넗?쎌뒪肄붾━??寃쎈ℓ</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap');
+*,*:before,*:after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:'Noto Sans KR',sans-serif;background:#f2f5fb;color:#0d1420;min-height:100vh}
+button,input,textarea,select{font:inherit}a{text-decoration:none}
+.hd{background:linear-gradient(135deg,#0b1a38,#1a3a7a);height:58px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 2px 20px rgba(11,26,56,.35)}
+.hd-l,.hd-r{display:flex;align-items:center}.hd-l{gap:11px}.hd-r{gap:10px}.hd-mark{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#5aaeff,#1a5de8);display:flex;align-items:center;justify-content:center}.hd-name{font-size:15px;font-weight:900;color:#fff;letter-spacing:-.03em;cursor:pointer;user-select:none}.hd-sub,.hd-auth{font-size:11px;font-weight:700;color:rgba(255,255,255,.6)}.hd-sub{margin-left:4px}.hd-live{display:flex;align-items:center;gap:6px;background:rgba(61,214,140,.14);border:1px solid rgba(61,214,140,.28);border-radius:99px;padding:5px 13px;font-size:11px;font-weight:700;color:#3dd68c}.hd-dot{width:6px;height:6px;border-radius:50%;background:#3dd68c;animation:pls 1.4s ease infinite}
+@keyframes pls{0%,100%{box-shadow:0 0 0 0 rgba(61,214,140,.4)}70%{box-shadow:0 0 0 6px rgba(61,214,140,0)}}
+.hd-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:6px 13px;font-size:11.5px;font-weight:700;color:#fff;cursor:pointer}
+.hd-btn:hover{background:rgba(255,255,255,.2)}
+#listView{display:block}#detailView,#adminView{display:none}
+.hero{background:linear-gradient(180deg,#07122a,#0f1e42);padding:40px 24px 34px;text-align:center}.hero h1{font-size:clamp(24px,3.5vw,40px);font-weight:900;color:#fff;letter-spacing:-.05em;line-height:1.18}.hero h1 em{color:#5aaeff;font-style:normal}.hero p{font-size:14px;font-weight:500;color:rgba(255,255,255,.55);margin:8px 0 18px}.stats{display:inline-flex;align-items:center;gap:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:99px;padding:8px 22px}.stat{font-size:12px;font-weight:700;color:rgba(255,255,255,.6)}.stat b{color:#5aaeff;font-size:15px}.sep{width:1px;height:14px;background:rgba(255,255,255,.15)}.hero-note{max-width:780px;margin:18px auto 0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:12px 14px;font-size:12px;font-weight:700;color:rgba(255,255,255,.82);line-height:1.7}.hero-note b{color:#ffd465}
+.hero-note.warn{display:none;background:rgba(255,90,90,.12);border-color:rgba(255,90,90,.34);color:#ffd7d7}.hero-note.warn b{color:#fff}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 20px 60px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.card,.box{background:#fff;border-radius:14px;box-shadow:0 2px 16px rgba(0,0,0,.07);border:1px solid rgba(0,0,0,.05)}
+.card{overflow:hidden;cursor:pointer;transition:.2s transform,.2s box-shadow}.card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(26,93,232,.13)}
+.thumb{width:100%;aspect-ratio:16/9;background:#dce8ff;position:relative;overflow:hidden}.thumb img{width:100%;height:100%;object-fit:cover;display:block}.ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;color:#8898aa;font-size:11px;font-weight:700}.badge{position:absolute;top:10px;left:10px;font-size:10px;font-weight:900;padding:4px 9px;border-radius:4px;white-space:nowrap}.sold-ov{position:absolute;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center}.sold-stamp{background:#e03535;color:#fff;font-size:14px;font-weight:900;padding:8px 22px;border-radius:4px;transform:rotate(-12deg);letter-spacing:.06em}
+.body{padding:16px 16px 14px}.title{font-size:15px;font-weight:900;color:#0d1420;letter-spacing:-.03em;margin-bottom:4px}.specs{font-size:11.5px;font-weight:600;color:#8898aa;margin-bottom:10px}.foot{display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid #f0f2f6}.lbl{font-size:10px;font-weight:700;color:#8898aa;letter-spacing:.04em}.val{font-size:15px;font-weight:900;color:#1a5de8;letter-spacing:-.03em}.bids{font-size:11px;font-weight:600;color:#b4bec8}.bids b{color:#1a5de8}.arrow{font-size:18px;color:#1a5de8}.private{margin-top:10px;font-size:10.5px;font-weight:700;color:#5a6a7e}
+.mask{display:inline-flex;align-items:center;justify-content:center;min-width:108px;padding:4px 10px;border-radius:999px;background:linear-gradient(135deg,#edf3ff,#dfe8fb);color:#6a7c99;font-size:11px;font-weight:800;letter-spacing:.02em;position:relative;overflow:hidden}.mask:after{content:'';position:absolute;inset:0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);background:linear-gradient(90deg,rgba(255,255,255,.2),rgba(255,255,255,.45),rgba(255,255,255,.2))}.mask span{position:relative;z-index:1}
+.detail{max-width:1100px;margin:0 auto;padding:24px 20px 80px}.back{display:inline-flex;align-items:center;gap:6px;padding:8px 0;font-size:13px;font-weight:700;color:#5a6a7e;cursor:pointer;margin-bottom:16px}.back:hover{color:#1a5de8}.detail-grid{display:grid;grid-template-columns:1fr 360px;gap:28px;align-items:start}
+.gallery{overflow:hidden}.gallery-main{width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;background:#dce8ff}.gallery-main img{width:100%;height:100%;object-fit:cover;display:block}.gallery-nav{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.45);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;font-size:16px}.gallery-nav.prev{left:10px}.gallery-nav.next{right:10px}.gallery-counter{position:absolute;bottom:10px;right:12px;background:rgba(0,0,0,.55);color:#fff;font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px}.gallery-thumbs{display:flex;gap:6px;padding:10px;overflow-x:auto}.g-thumb{width:72px;height:52px;flex-shrink:0;border-radius:6px;overflow:hidden;cursor:pointer;border:2px solid transparent;background:#eef2f8}.g-thumb.active{border-color:#1a5de8}.g-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.box{padding:20px}.mt16{margin-top:16px}.box h2,.box h3{font-size:13px;font-weight:800;color:#0d1420;margin-bottom:14px;display:flex;align-items:center;gap:6px}.box h2:before,.box h3:before{content:'';display:inline-block;width:3px;height:14px;background:linear-gradient(to bottom,#1a5de8,#5aaeff);border-radius:2px}.table{width:100%;border-collapse:collapse}.table tr:not(:last-child) td{border-bottom:1px solid #f0f2f6}.table td{padding:9px 4px;font-size:13px;vertical-align:top}.table td:first-child{font-weight:700;color:#8898aa;width:90px;white-space:nowrap}.table td:last-child{font-weight:600;color:#0d1420;line-height:1.55}
+.side{display:flex;flex-direction:column;gap:14px}.type-badge{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:4px;font-size:10px;font-weight:900;margin-bottom:12px}.big-title{font-size:20px;font-weight:900;color:#0d1420;letter-spacing:-.04em;line-height:1.2;margin-bottom:4px}.desc{font-size:13px;font-weight:500;color:#5a6a7e;line-height:1.68;margin-bottom:16px;padding:12px;background:#f8faff;border-radius:8px;border-left:3px solid #5aaeff}.lock-note,.guide,.admin-note{padding:12px;border-radius:10px;background:#f7faff;border:1px solid #dce8ff;font-size:12px;font-weight:700;color:#4062a3;line-height:1.7}.lock-note b,.guide b,.admin-note b{color:#0b3ab0}
+.bid-list{display:flex;flex-direction:column;gap:5px;max-height:360px;overflow:auto}.bid-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:8px;background:#f8faff;border:1px solid #eef2fb;opacity:0;transform:translateY(24px);transition:opacity .35s ease,transform .35s ease}.bid-item.show{opacity:1;transform:translateY(0)}.bid-item.win{background:linear-gradient(135deg,#fff8e0,#fff3c0);border-color:#ffd700}.rank{width:22px;height:22px;border-radius:50%;background:#e0e8ff;color:#1a5de8;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}.bid-item.win .rank{background:#ffd700;color:#0d1420}.info{flex:1;padding:0 10px;min-width:0}.who{font-size:11.5px;font-weight:700;color:#0d1420;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.time{font-size:10px;font-weight:500;color:#8898aa;margin-top:1px}.amt-wrap{display:flex;align-items:center;gap:8px;justify-content:flex-end}.amt{font-size:14px;font-weight:900;color:#1a5de8;letter-spacing:-.03em;white-space:nowrap}.bid-item.win .amt{color:#b8860b;font-size:16px}.unlock,.pr-btn,.save,.ghost,.add{cursor:pointer;border:none}.unlock,.pr-btn{height:30px;padding:0 10px;border-radius:999px;background:#0f3aa7;color:#fff;font-size:11px;font-weight:800;white-space:nowrap}.tag{display:inline-flex;align-items:center;justify-content:center;height:30px;padding:0 10px;border-radius:999px;background:#eaf0ff;color:#4462a6;font-size:11px;font-weight:800;white-space:nowrap}.empty{padding:16px;border-radius:10px;background:#f8faff;font-size:12px;font-weight:700;color:#8898aa;text-align:center}
+.price{background:linear-gradient(135deg,#0b1a38,#1a3a7a);border-radius:12px;padding:18px 16px;margin-top:10px;border:1px solid rgba(90,174,255,.2)}.pr-lbl{font-size:10.5px;font-weight:800;color:rgba(255,255,255,.5);letter-spacing:.08em;margin-bottom:6px}.pr-val{font-size:32px;font-weight:900;letter-spacing:-.04em;color:#ffd700;text-shadow:0 2px 20px rgba(255,215,0,.35)}.pr-sub{font-size:11px;font-weight:600;color:rgba(255,255,255,.45);margin-top:4px}.pr-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.form p{font-size:12px;font-weight:600;color:#6b7c97;line-height:1.6;margin-bottom:14px}.form-grid,.af-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.full{grid-column:1/-1}.label{font-size:11px;font-weight:800;color:#5a6a7e;margin-bottom:5px}.inp,.txt,.af-input,.af-select,.af-txt,.bid-entry input{width:100%;border:1.5px solid #e8edf5;border-radius:8px;background:#f8faff;font-size:13px;font-weight:500;color:#0d1420;outline:none}.inp,.af-input,.af-select,.bid-entry input{height:42px;padding:0 12px}.txt,.af-txt{height:88px;padding:10px 12px;resize:vertical}.inp:focus,.txt:focus,.af-input:focus,.af-select:focus,.af-txt:focus,.bid-entry input:focus{border-color:#1a5de8}.help,.meta{margin-top:4px;font-size:10.5px;font-weight:700;color:#8898aa;line-height:1.5}.save,.submit{width:100%;height:46px;border-radius:10px;background:linear-gradient(135deg,#1a5de8,#0b3ab0);color:#fff;font-size:14px;font-weight:800}.ghost{height:40px;border-radius:10px;border:1.5px solid #d8e3f7;background:#f8fbff;color:#32559d;font-size:12.5px;font-weight:800;padding:0 14px}.sold-block{padding:14px;border-radius:10px;background:#fff5f5;border:1px solid #ffd9d9;font-size:12px;font-weight:800;color:#c13636;text-align:center}
+.admin{max-width:900px;margin:0 auto;padding:28px 20px 80px}.admin-actions{display:flex;gap:8px;flex-wrap:wrap}.img-slots{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px}.img-slot{aspect-ratio:4/3;border-radius:8px;border:2px dashed #d0d8ee;background:#f4f7ff;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;cursor:pointer;overflow:hidden;padding:8px;text-align:center;position:relative}.img-slot:hover{border-color:#1a5de8}.img-slot img{width:100%;height:100%;object-fit:cover;border-radius:6px}.img-slot small{display:block;font-size:9px;font-weight:700;color:#9aa7ba}.img-clear{position:absolute;top:6px;right:6px;width:24px;height:24px;border:none;border-radius:50%;background:rgba(13,20,32,.72);color:#fff;font-size:14px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}.img-meta{position:absolute;left:6px;right:6px;bottom:6px;padding:4px 6px;border-radius:6px;background:rgba(13,20,32,.66);color:#fff;font-size:9px;font-weight:800;line-height:1.35}.bid-entries,.mgmt,.dealer-list{display:flex;flex-direction:column;gap:8px}.bid-entry{display:grid;grid-template-columns:1.2fr 1fr .8fr 32px;gap:8px;align-items:center}.rm{width:32px;height:32px;border-radius:7px;border:1.5px solid #f0d0d0;background:#fff8f8;color:#e03535;font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer}.add{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;height:36px;border-radius:8px;border:1.5px dashed #c8d8f0;background:#f4f8ff;color:#1a5de8;font-size:12.5px;font-weight:700}.del{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:40px;border-radius:10px;background:#fff8f8;border:1.5px solid #f0d0d0;color:#e03535;font-size:13px;font-weight:700;cursor:pointer;margin-top:8px}.item{display:flex;align-items:center;gap:12px;padding:12px;background:#f8faff;border-radius:9px;border:1px solid #eef2fb}.item .thumb-sm{width:60px;height:44px;border-radius:6px;overflow:hidden;background:#dce8ff;flex-shrink:0}.item .thumb-sm img{width:100%;height:100%;object-fit:cover;display:block}.item-info{flex:1;min-width:0}.item-title{font-size:13px;font-weight:800;color:#0d1420;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.item-sub{font-size:11px;font-weight:500;color:#8898aa;margin-top:1px;line-height:1.5}.item-btns{display:flex;gap:6px;flex-wrap:wrap}.mini{height:30px;padding:0 10px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid}.mini.edit{background:#f0f5ff;border-color:#c8d8f0;color:#1a5de8}.mini.del{background:#fff8f8;border-color:#f0d0d0;color:#e03535}.mini.toggle{background:#f0fff8;border-color:#b8e8d0;color:#0e7a5a}.mini.toggle.sold{background:#fff8f8;border-color:#f0d0d0;color:#e03535}.dealer-id{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;font-weight:800;color:#234b96}
+.cta{display:flex;flex-direction:column;gap:8px}.call,.kakao{display:flex;align-items:center;justify-content:center;gap:8px;height:46px;border-radius:10px;font-size:14px;font-weight:800}.call{background:linear-gradient(135deg,#1a5de8,#0b3ab0);color:#fff}.kakao{background:#fee500;color:#1a1a1a}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:#0d1420;color:#fff;font-size:13px;font-weight:700;padding:12px 22px;border-radius:99px;box-shadow:0 8px 24px rgba(0,0,0,.25);opacity:0;transition:.3s;pointer-events:none;z-index:999;white-space:nowrap}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.auth-backdrop{position:fixed;inset:0;background:rgba(4,13,31,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:18px;z-index:700}
+.auth-backdrop.show{display:flex}
+.auth-modal{width:min(460px,calc(100vw - 28px));border-radius:24px;overflow:hidden;background:#fff;box-shadow:0 24px 80px rgba(4,13,31,.45);border:1px solid rgba(255,255,255,.2)}
+.auth-top{padding:22px 22px 20px;background:linear-gradient(135deg,#07122a,#0f2f69 62%,#1b57d4);color:#fff;position:relative}
+.auth-top:after{content:'';position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.08)}
+.auth-chip{display:inline-flex;align-items:center;gap:7px;height:28px;padding:0 12px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.14);font-size:11px;font-weight:900;letter-spacing:.04em}
+.auth-chip:before{content:'';width:8px;height:8px;border-radius:50%;background:#5aaeff;box-shadow:0 0 0 5px rgba(90,174,255,.14)}
+.auth-title{margin-top:14px;font-size:24px;font-weight:900;letter-spacing:-.04em;line-height:1.16}
+.auth-sub{margin-top:8px;font-size:12px;font-weight:600;color:rgba(255,255,255,.7);line-height:1.7}
+.auth-close{position:absolute;right:16px;top:16px;width:36px;height:36px;border:none;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-size:18px;font-weight:800;cursor:pointer}
+.auth-close:hover{background:rgba(255,255,255,.2)}
+.auth-body{padding:22px}
+.auth-fields{display:flex;flex-direction:column;gap:14px}
+.auth-field label{display:block;font-size:11px;font-weight:900;color:#5b6f92;letter-spacing:.04em;margin-bottom:6px}
+.auth-field input{width:100%;height:46px;border:1.5px solid #dce6f8;border-radius:12px;background:#f6f9ff;padding:0 14px;font-size:14px;font-weight:700;color:#0d1420;outline:none;transition:border-color .18s,box-shadow .18s}
+.auth-field input:focus{border-color:#1a5de8;box-shadow:0 0 0 4px rgba(26,93,232,.1)}
+.auth-field small{display:block;margin-top:6px;font-size:10.5px;font-weight:700;color:#8d9bb2;line-height:1.5}
+.auth-error{display:none;margin-top:14px;padding:12px 13px;border-radius:12px;background:#fff4f4;border:1px solid #ffd7d7;color:#c93b3b;font-size:12px;font-weight:800;line-height:1.6}
+.auth-error.show{display:block}
+.auth-note{margin-top:14px;padding:12px 13px;border-radius:12px;background:#f7faff;border:1px solid #dce8ff;color:#4162a2;font-size:11.5px;font-weight:700;line-height:1.7}
+.auth-actions{display:flex;gap:10px;margin-top:18px}
+.auth-ghost,.auth-submit{flex:1;height:46px;border:none;border-radius:12px;font-size:13px;font-weight:900;cursor:pointer}
+.auth-ghost{background:#eef4ff;color:#4462a6}
+.auth-submit{background:linear-gradient(135deg,#1a5de8,#0b3ab0);color:#fff;box-shadow:0 12px 28px rgba(26,93,232,.22)}
+.auth-submit:hover,.auth-ghost:hover{filter:brightness(1.03)}
+@media(max-width:780px){.detail-grid{grid-template-columns:1fr}.form-grid,.af-row{grid-template-columns:1fr}.img-slots{grid-template-columns:repeat(3,1fr)}.hd-sub,.hd-auth{display:none}}
+@media(max-width:560px){.hd{padding:0 14px}.hd-live{display:none}.stats{gap:12px;padding:7px 14px}.img-slots{grid-template-columns:repeat(2,1fr)}.bid-entry{grid-template-columns:1fr}.auth-title{font-size:21px}.auth-actions{flex-direction:column}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+window.OFA_SUPABASE = {
+  url: "https://gajuckqobqtbkcjxlhyq.supabase.co",
+  anonKey: "sb_publishable_wWBgQKBcnJhZrJXXuhze9g_TPg61MJX",
+  sessionStorageKey: "ofa_remote_session",
+  storageBucket: "",
+  storagePathPrefix: "auction-images"
+};
+
+</script>
+<script>
+(function (window) {
+  function readConfig() {
+    return window.OFA_SUPABASE || {};
+  }
+
+  function isConfigured() {
+    var config = readConfig();
+    return !!(config.url && config.anonKey);
+  }
+
+  function getStorageKey() {
+    var config = readConfig();
+    return config.sessionStorageKey || "ofa_remote_session";
+  }
+
+  function getStorageBucket() {
+    var config = readConfig();
+    return config.storageBucket || "";
+  }
+
+  function getStoragePathPrefix() {
+    var config = readConfig();
+    return config.storagePathPrefix || "auction-images";
+  }
+
+  function getSupabaseClient() {
+    if (!window.supabase || typeof window.supabase.createClient !== "function") {
+      throw new Error("SUPABASE_LIBRARY_MISSING");
+    }
+    if (!isConfigured()) {
+      throw new Error("SUPABASE_CONFIG_MISSING");
+    }
+    if (!getSupabaseClient._client) {
+      var config = readConfig();
+      getSupabaseClient._client = window.supabase.createClient(config.url, config.anonKey, {
+        auth: { persistSession: false }
+      });
+    }
+    return getSupabaseClient._client;
+  }
+
+  function readSession() {
+    try {
+      return JSON.parse(localStorage.getItem(getStorageKey()) || "null");
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function writeSession(session) {
+    if (session) {
+      localStorage.setItem(getStorageKey(), JSON.stringify(session));
+      return;
+    }
+    localStorage.removeItem(getStorageKey());
+  }
+
+  async function rpc(fn, params) {
+    var client = getSupabaseClient();
+    var result = await client.rpc(fn, params || {});
+    if (result.error) {
+      throw result.error;
+    }
+    return result.data;
+  }
+
+  function sessionToken() {
+    var session = readSession();
+    return session && session.token ? session.token : "";
+  }
+
+  function requireToken() {
+    var token = sessionToken();
+    if (!token) {
+      throw new Error("AUTH_REQUIRED");
+    }
+    return token;
+  }
+
+  function normalizeSession(payload) {
+    if (!payload || !payload.token) {
+      return null;
+    }
+    return {
+      token: payload.token,
+      role: payload.role,
+      accountId: payload.account_id || payload.accountId || "",
+      accountName: payload.account_name || payload.accountName || "",
+      loginId: payload.login_id || payload.loginId || ""
+    };
+  }
+
+  function normalizeLots(rows) {
+    return Array.isArray(rows) ? rows : [];
+  }
+
+  function normalizeDealers(rows) {
+    return Array.isArray(rows) ? rows : [];
+  }
+
+  function dataUrlToBlob(dataUrl) {
+    var parts = String(dataUrl || "").split(",");
+    if (parts.length < 2) {
+      throw new Error("INVALID_IMAGE_DATA");
+    }
+    var mimeMatch = parts[0].match(/data:(.*?);base64/);
+    var mime = mimeMatch ? mimeMatch[1] : "image/jpeg";
+    var binary = atob(parts[1]);
+    var bytes = new Uint8Array(binary.length);
+    for (var i = 0; i < binary.length; i += 1) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    return new Blob([bytes], { type: mime });
+  }
+
+  function buildStoragePath() {
+    return [
+      getStoragePathPrefix(),
+      new Date().toISOString().slice(0, 10),
+      Date.now() + "-" + Math.floor(Math.random() * 100000) + ".jpg"
+    ].join("/");
+  }
+
+  var api = {
+    isConfigured: isConfigured,
+    configSummary: function () {
+      var config = readConfig();
+      return {
+        hasUrl: !!config.url,
+        hasAnonKey: !!config.anonKey,
+        hasStorageBucket: !!config.storageBucket
+      };
+    },
+    storageSummary: function () {
+      return {
+        bucket: getStorageBucket(),
+        pathPrefix: getStoragePathPrefix()
+      };
+    },
+    canUploadToStorage: function () {
+      return isConfigured() && !!getStorageBucket();
+    },
+    readSession: readSession,
+    clearSession: function () {
+      writeSession(null);
+    },
+    adminStatus: function () {
+      return rpc("ofa_admin_status");
+    },
+    validateSession: async function () {
+      var token = sessionToken();
+      if (!token) {
+        return null;
+      }
+      try {
+        var payload = await rpc("ofa_validate_session", { p_token: token });
+        var session = normalizeSession(payload);
+        writeSession(session);
+        return session;
+      } catch (error) {
+        writeSession(null);
+        return null;
+      }
+    },
+    logout: async function () {
+      var token = sessionToken();
+      if (token) {
+        try {
+          await rpc("ofa_logout", { p_token: token });
+        } catch (error) {
+          // Ignore logout cleanup errors and clear local state anyway.
+        }
+      }
+      writeSession(null);
+    },
+    bootstrapAdmin: async function (password) {
+      var payload = await rpc("ofa_admin_bootstrap", { p_password: password });
+      var session = normalizeSession(payload);
+      writeSession(session);
+      return session;
+    },
+    adminLogin: async function (password) {
+      var payload = await rpc("ofa_admin_login", { p_password: password });
+      var session = normalizeSession(payload);
+      writeSession(session);
+      return session;
+    },
+    changeAdminPassword: function (newPassword) {
+      return rpc("ofa_admin_change_password", {
+        p_token: requireToken(),
+        p_new_password: newPassword
+      });
+    },
+    dealerLogin: async function (loginId, password) {
+      var payload = await rpc("ofa_dealer_login", {
+        p_login_id: loginId,
+        p_password: password
+      });
+      var session = normalizeSession(payload);
+      writeSession(session);
+      return session;
+    },
+    listDealers: async function () {
+      var rows = await rpc("ofa_list_dealers", { p_token: requireToken() });
+      return normalizeDealers(rows);
+    },
+    upsertDealer: async function (payload) {
+      return rpc("ofa_upsert_dealer", {
+        p_token: requireToken(),
+        p_payload: payload
+      });
+    },
+    deleteDealer: async function (dealerId) {
+      return rpc("ofa_delete_dealer", {
+        p_token: requireToken(),
+        p_dealer_id: dealerId
+      });
+    },
+    uploadImageDataUrl: async function (dataUrl) {
+      if (!getStorageBucket()) {
+        throw new Error("STORAGE_BUCKET_MISSING");
+      }
+      var client = getSupabaseClient();
+      var path = buildStoragePath();
+      var blob = dataUrlToBlob(dataUrl);
+      var uploadResult = await client.storage.from(getStorageBucket()).upload(path, blob, {
+        contentType: blob.type || "image/jpeg",
+        upsert: false
+      });
+      if (uploadResult.error) {
+        throw uploadResult.error;
+      }
+      var publicResult = client.storage.from(getStorageBucket()).getPublicUrl(path);
+      if (!publicResult || !publicResult.data || !publicResult.data.publicUrl) {
+        throw new Error("STORAGE_PUBLIC_URL_FAILED");
+      }
+      return {
+        path: path,
+        publicUrl: publicResult.data.publicUrl
+      };
+    },
+    listLots: async function () {
+      var rows = await rpc("ofa_list_lots");
+      return normalizeLots(rows);
+    },
+    getLotDetail: function (lotId) {
+      return rpc("ofa_get_lot_detail", {
+        p_token: requireToken(),
+        p_lot_id: lotId
+      });
+    },
+    upsertLot: function (payload) {
+      return rpc("ofa_upsert_lot", {
+        p_token: requireToken(),
+        p_payload: payload
+      });
+    },
+    deleteLot: function (lotId) {
+      return rpc("ofa_delete_lot", {
+        p_token: requireToken(),
+        p_lot_id: lotId
+      });
+    },
+    setLotSold: function (lotId, sold) {
+      return rpc("ofa_set_lot_sold", {
+        p_token: requireToken(),
+        p_lot_id: lotId,
+        p_sold: !!sold
+      });
+    },
+    createBid: function (lotId, payload) {
+      return rpc("ofa_create_bid", {
+        p_token: requireToken(),
+        p_lot_id: lotId,
+        p_payload: payload
+      });
+    },
+    revealBid: function (bidId, password) {
+      return rpc("ofa_reveal_bid", {
+        p_token: requireToken(),
+        p_bid_id: bidId,
+        p_password: password
+      });
+    }
+  };
+
+  window.OFA_API = api;
+})(window);
+
+</script>
+<script>
+(function(){
+var s={session:null,adminExists:false,lots:[],detail:null,lotId:'',images:[],g:0,editLotId:'',editDealerId:'',imgSlots:['','','','',''],bids:[],dealers:[],revealed:{},modal:null};
+var BADGES={'bc-red':['#e03535','#fff'],'bc-blue':['#1a5de8','#fff'],'bc-orange':['#e06800','#fff'],'bc-teal':['#0e7a5a','#fff'],'bc-navy':['#0b2a52','#fff'],'bc-gray':['#555','#fff']};
+function $(id){return document.getElementById(id)}
+function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
+function cfgMissing(){return !(window.OFA_API&&window.OFA_API.isConfigured&&window.OFA_API.isConfigured())}
+function isAdmin(){return !!(s.session&&s.session.role==='admin')}
+function isDealer(){return !!(s.session&&s.session.role==='dealer')}
+function canView(){return isAdmin()||isDealer()}
+function toast(msg){var t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(function(){t.classList.remove('show')},2400)}
+function errorText(err){var m=String((err&&(err.message||err.code||err))||'');if(m.indexOf('SUPABASE_CONFIG_MISSING')>=0)return 'Supabase 설정값이 비어 있습니다.';if(m.indexOf('SUPABASE_LIBRARY_MISSING')>=0)return 'Supabase 라이브러리를 불러오지 못했습니다.';if(m.indexOf('INVALID_SESSION')>=0||m.indexOf('AUTH_REQUIRED')>=0)return '로그인이 만료됐습니다. 다시 로그인하세요.';if(m.indexOf('INVALID_ADMIN_PASSWORD')>=0)return '관리자 비밀번호가 맞지 않습니다.';if(m.indexOf('INVALID_DEALER_LOGIN')>=0)return '업체 로그인 정보가 맞지 않습니다.';if(m.indexOf('INVALID_PASSWORD')>=0||m.indexOf('INVALID_REVEAL_PASSWORD')>=0)return '비밀번호는 4자리 이상이어야 합니다.';if(m.indexOf('TITLE_REQUIRED')>=0)return '차량명을 입력하세요.';if(m.indexOf('TYPE_REQUIRED')>=0)return '사고유형을 선택하세요.';if(m.indexOf('LOT_SOLD')>=0)return '매각 완료 차량에는 입찰할 수 없습니다.';if(m.indexOf('ADMIN_ONLY')>=0)return '관리자 권한이 필요합니다.';return m||'처리 중 오류가 발생했습니다.'}
+function useStorage(){return !!(window.OFA_API&&window.OFA_API.canUploadToStorage&&window.OFA_API.canUploadToStorage())}
+function priceNum(v){var d=String(v||'').replace(/[^0-9]/g,'');return d?String(parseInt(d,10)):'0'}
+function priceLabel(v){var d=String(v||'').replace(/[^0-9]/g,'');return d?Number(d).toLocaleString('ko-KR')+'원':String(v||'').trim()}
+function bidSort(a,b){var av=Number(a.amount_value||priceNum(a.amount||0)),bv=Number(b.amount_value||priceNum(b.amount||0));if(av!==bv)return av-bv;return new Date(a.created_at||a.createdAt||0)-new Date(b.created_at||b.createdAt||0)}
+function formatTime(v){if(!v)return '';var d=new Date(v);if(Number.isNaN(d.getTime()))return String(v);var yy=String(d.getFullYear()).slice(2),mm=String(d.getMonth()+1).padStart(2,'0'),dd=String(d.getDate()).padStart(2,'0'),hh=String(d.getHours()).padStart(2,'0'),mi=String(d.getMinutes()).padStart(2,'0');return yy+'.'+mm+'.'+dd+' '+hh+':'+mi}
+function badgeStyle(name){var p=BADGES[name]||BADGES['bc-red'];return 'background:'+p[0]+';color:'+p[1]}
+function svg(n){return '<svg width="'+n+'" height="'+n+'" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="3" stroke="#8898aa" stroke-width="1.4"/><circle cx="8" cy="9" r="2" fill="#8898aa"/><path d="M2 15l5-5 4 4 3-3 8 7" stroke="#8898aa" stroke-width="1.4" stroke-linecap="round"/></svg>'}
+function thumb(url,alt){return url?'<img src="'+esc(url)+'" alt="'+esc(alt||'차량 이미지')+'">':'<div class="ph">'+svg(32)+'<span>사진 없음</span></div>'}
+function syncQuery(id){var u=new URL(window.location.href);if(id)u.searchParams.set('lot',id);else u.searchParams.delete('lot');history.replaceState({},'',u.toString())}
+function renderSetup(){var n=$('setupState');if(n)n.style.display=cfgMissing()?'block':'none'}
+function openModal(o){s.modal=o;$('authChip').textContent=o.badge||'보안 인증';$('authTitle').textContent=o.title||'확인';$('authSub').textContent=o.subtitle||'';$('authSubmitBtn').textContent=o.submitText||'확인';$('authNote').style.display=o.note?'block':'none';$('authNote').textContent=o.note||'';$('authError').classList.remove('show');$('authError').textContent='';var fields=$('authFields');fields.innerHTML='';(o.fields||[]).forEach(function(f){var d=document.createElement('div');d.className='auth-field';d.innerHTML='<label for="auth-'+esc(f.name)+'">'+esc(f.label)+'</label><input id="auth-'+esc(f.name)+'" type="'+esc(f.type||'text')+'" placeholder="'+esc(f.placeholder||'')+'"'+(f.autocomplete?' autocomplete="'+esc(f.autocomplete)+'"':'')+'>'+(f.help?'<small>'+esc(f.help)+'</small>':'');fields.appendChild(d)});$('authBackdrop').classList.add('show')}
+function closeModal(){s.modal=null;$('authBackdrop').classList.remove('show')}
+async function submitModal(e){e.preventDefault();if(!s.modal)return;var vals={};(s.modal.fields||[]).forEach(function(f){vals[f.name]=$('auth-'+f.name).value});try{var ok=await s.modal.onSubmit(vals);if(ok!==false)closeModal()}catch(err){$('authError').textContent=errorText(err);$('authError').classList.add('show')}}
+function updateHeader(){$('adminBtn').style.display=isAdmin()?'inline-flex':'none';if(isAdmin()){$('authStatus').textContent='관리자 로그인됨';$('dealerBtn').textContent='로그아웃';return}if(isDealer()){$('authStatus').textContent='업체 로그인: '+(s.session.accountName||s.session.loginId||'');$('dealerBtn').textContent='로그아웃';return}$('authStatus').textContent='업체 로그인 필요';$('dealerBtn').textContent='업체 로그인'}
+async function refreshSession(){if(cfgMissing()){s.session=null;s.adminExists=false;updateHeader();return}s.session=await OFA_API.validateSession();s.adminExists=!!((await OFA_API.adminStatus()).exists);updateHeader()}
+async function refreshLots(){if(cfgMissing()){s.lots=[];renderList();renderMgmt();return}var rows=await OFA_API.listLots();s.lots=(rows||[]).map(function(r){return{id:r.id,title:r.title||'',year:r.year||'',km:r.km||'',fuel:r.fuel||'',type:r.type||'',badgeColor:r.badge_color||'bc-red',region:r.region||'',desc:r.description||'',images:Array.isArray(r.image_urls)?r.image_urls:[],sold:!!r.sold,bidCount:Number(r.bid_count||0)}});$('activeCnt').textContent=String(s.lots.filter(function(x){return !x.sold}).length);$('soldCnt').textContent=String(s.lots.filter(function(x){return x.sold}).length);$('totalCnt').textContent=String(s.lots.length);renderList();renderMgmt()}
+function renderList(){var g=$('listGrid');g.innerHTML='';if(cfgMissing()){g.innerHTML='<div class="empty" style="grid-column:1/-1;padding:40px;font-size:14px">Supabase 설정을 먼저 완료해야 운영 데이터를 불러올 수 있습니다.</div>';return}if(!s.lots.length){g.innerHTML='<div class="empty" style="grid-column:1/-1;padding:40px;font-size:14px">등록된 매물이 없습니다.</div>';return}s.lots.forEach(function(lot){var locked=!canView();var c=document.createElement('div');c.className='card';c.innerHTML='<div class="thumb">'+thumb((lot.images||[])[0],lot.title)+'<div class="badge" style="'+badgeStyle(lot.badgeColor)+'">'+esc(lot.type||'경매차량')+'</div>'+(lot.sold?'<div class="sold-ov"><div class="sold-stamp">SOLD</div></div>':'')+(locked?'<div class="lock-ov"><div class="lock-chip">LOGIN REQUIRED</div><div class="lock-copy">업체 로그인 후<br>상세 및 입찰 확인 가능</div></div>':'')+'</div><div class="body"><div class="title">'+esc(lot.title)+'</div><div class="specs">'+esc([lot.year,lot.km,lot.fuel].filter(Boolean).join(' · '))+'</div><div class="foot"><div><div class="lbl">현재 입찰가</div><div class="val"><span class="mask">금액 비공개</span></div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px"><div class="bids">입찰 <b>'+String(lot.bidCount||0)+'</b>회</div></div></div><div class="private">업체 인증 후 상세에서 확인</div></div>';c.onclick=function(){showDetail(lot.id)};g.appendChild(c)})}
+async function needDealer(lotId){if(canView())return true;openModal({badge:'DEALER LOGIN',title:'업체 로그인',subtitle:'업체 계정으로 로그인해야 상세와 입찰을 확인할 수 있습니다.',submitText:'로그인',fields:[{name:'loginId',label:'업체 아이디',placeholder:'예: partner01',autocomplete:'username'},{name:'password',label:'비밀번호',type:'password',placeholder:'비밀번호 입력',autocomplete:'current-password'}],onSubmit:async function(v){s.session=await OFA_API.dealerLogin((v.loginId||'').trim(),(v.password||'').trim());updateHeader();toast('업체 로그인 완료');if(lotId)await showDetail(lotId);return true}});return false}
+async function openAdminLogin(){if(cfgMissing()){toast('Supabase 설정을 먼저 입력하세요.');return}if(!s.adminExists){openModal({badge:'ADMIN SETUP',title:'관리자 비밀번호 최초 설정',subtitle:'최초 1회만 실행됩니다.',submitText:'설정 완료',fields:[{name:'password',label:'새 비밀번호',type:'password',placeholder:'4자리 이상'},{name:'confirm',label:'비밀번호 확인',type:'password',placeholder:'같은 비밀번호 재입력'}],onSubmit:async function(v){var pw=(v.password||'').trim();if(!pw||pw.length<4||pw!==v.confirm)throw new Error('INVALID_PASSWORD');s.session=await OFA_API.bootstrapAdmin(pw);s.adminExists=true;updateHeader();toast('관리자 비밀번호를 설정했습니다.');return true}});return}openModal({badge:'ADMIN LOGIN',title:'관리자 로그인',subtitle:'관리자 비밀번호를 입력하세요.',submitText:'로그인',fields:[{name:'password',label:'관리자 비밀번호',type:'password',placeholder:'비밀번호 입력'}],onSubmit:async function(v){s.session=await OFA_API.adminLogin((v.password||'').trim());updateHeader();toast('관리자 로그인 완료');return true}})}
+async function dealerButton(){if(s.session){await logout();return}await needDealer('')}
+async function logout(){if(!cfgMissing())await OFA_API.logout();s.session=null;s.revealed={};updateHeader();showList();toast('로그아웃됐습니다.')}
+function renderGallery(){var m=$('galleryMain'),t=$('galleryThumbs');m.innerHTML='';t.innerHTML='';if(!s.images.length){m.innerHTML='<div class="ph">'+svg(40)+'<span>등록된 사진이 없습니다</span></div>';return}s.g=Math.max(0,Math.min(s.g,s.images.length-1));m.innerHTML='<img src="'+esc(s.images[s.g])+'" alt="차량 사진">'+(s.images.length>1?'<button class="gallery-nav prev" type="button" onclick="auctionApp.prev()">&#8249;</button><button class="gallery-nav next" type="button" onclick="auctionApp.next()">&#8250;</button>':'')+'<div class="gallery-counter">'+String(s.g+1)+' / '+String(s.images.length)+'</div>';s.images.forEach(function(url,i){var d=document.createElement('div');d.className='g-thumb'+(i===s.g?' active':'');d.innerHTML='<img src="'+esc(url)+'" alt="사진 '+String(i+1)+'">';d.onclick=function(){s.g=i;renderGallery()};t.appendChild(d)})}
+function renderDetail(){var lot=s.detail;if(!lot)return;var rows=[['차량명',lot.title],['연식',lot.year],['주행거리',lot.km],['연료',lot.fuel],['사고유형',lot.type],['지역',lot.region]].filter(function(r){return r[1]});$('infoTable').innerHTML=rows.map(function(r){return '<tr><td>'+esc(r[0])+'</td><td>'+esc(r[1])+'</td></tr>'}).join('');$('auctionCard').innerHTML='<div class="type-badge" style="'+badgeStyle(lot.badgeColor)+'">'+esc(lot.type)+'</div><div class="big-title">'+esc(lot.title)+'</div><div class="specs">'+esc([lot.year,lot.km,lot.fuel,lot.region].filter(Boolean).join(' · '))+'</div>'+(lot.desc?'<div class="desc">'+esc(lot.desc)+'</div>':'')+(lot.sold?'<div class="sold-block">이 매물은 매각이 완료됐습니다.</div>':'')+'<div class="lock-note"><b>금액 보호:</b> 비밀번호를 아는 당사자 또는 관리자만 금액을 열 수 있습니다.</div>'}
+function renderBids(){var list=$('bidList'),box=$('priceReveal');list.innerHTML='';box.innerHTML='';var bids=(s.detail&&s.detail.bids||[]);if(!bids.length){list.innerHTML='<div class="empty">아직 입찰이 없습니다.</div>';box.style.display='none';return}box.style.display='block';bids.forEach(function(bid,i){var win=i===bids.length-1;var amount=isAdmin()?bid.amount:s.revealed[bid.id];var controls=amount?'<div class="amt">'+esc(amount)+(win?' 👑':'')+'</div>':'<div class="tag">금액 비공개</div><button class="unlock" type="button" onclick="auctionApp.unlockBid(\''+esc(bid.id)+'\')">금액 확인</button>';var item=document.createElement('div');item.className='bid-item'+(win?' win':'');item.innerHTML='<div class="rank">'+String(i+1)+'</div><div class="info"><div class="who">'+esc(bid.who||'익명')+'</div><div class="time">'+esc(formatTime(bid.created_at||bid.createdAt))+'</div></div><div class="amt-wrap">'+controls+'</div>';list.appendChild(item);setTimeout((function(n){return function(){n.classList.add('show')}})(item),120+i*90)});var top=bids[bids.length-1],show=isAdmin()?top.amount:s.revealed[top.id];box.innerHTML=show?'<div class="pr-lbl">'+(s.detail.sold?'최종 낙찰가':'현재 최고 입찰가')+'</div><div class="pr-val">'+esc(show)+'</div><div class="pr-sub">현재 세션에서 확인 허용된 금액입니다.</div>':'<div class="pr-lbl">'+(s.detail.sold?'최종 낙찰가':'현재 최고 입찰가')+'</div><div class="pr-row"><div class="pr-val" style="font-size:22px"><span class="mask">금액 비공개</span></div><button class="pr-btn" type="button" onclick="auctionApp.unlockBid(\''+esc(top.id)+'\')">금액 확인</button></div><div class="pr-sub">기본값은 비공개입니다.</div>'}
+function renderBidForm(){if(!s.detail||s.detail.sold){$('bidFormCard').innerHTML='<h3>입찰 요청</h3><div class="sold-block">매각 완료 차량에는 신규 입찰을 받을 수 없습니다.</div>';return}$('bidFormCard').innerHTML='<h3>고객 직접 입찰</h3><p>입찰 시 설정한 확인 비밀번호로 본인 금액을 다시 열 수 있습니다.</p><form onsubmit="auctionApp.submitBid(event)"><div class="form-grid"><div><div class="label">입찰자명 *</div><input class="inp" id="bidName" required></div><div><div class="label">연락처 *</div><input class="inp" id="bidPhone" required></div><div><div class="label">입찰 금액 *</div><input class="inp" id="bidAmount" required></div><div><div class="label">확인 비밀번호 *</div><input class="inp" id="bidPassword" type="password" required></div><div class="full"><div class="label">비밀번호 확인 *</div><input class="inp" id="bidPasswordConfirm" type="password" required><div class="help">잊어버리면 본인 금액도 다시 열 수 없습니다.</div></div><div class="full"><div class="label">메모</div><textarea class="txt" id="bidNote"></textarea></div></div><button class="submit" type="submit">입찰 요청하기</button></form>'}
+async function showDetail(id){if(!(await needDealer(id)))return;var payload=await OFA_API.getLotDetail(id),lot=payload.lot||{};s.lotId=lot.id;s.detail={id:lot.id,title:lot.title||'',year:lot.year||'',km:lot.km||'',fuel:lot.fuel||'',type:lot.type||'',badgeColor:lot.badgeColor||'bc-red',region:lot.region||'',desc:lot.desc||'',images:Array.isArray(lot.images)?lot.images:[],sold:!!lot.sold,bids:(payload.bids||[]).slice().sort(bidSort)};s.images=s.detail.images.slice();s.g=0;syncQuery(id);$('listView').style.display='none';$('adminView').style.display='none';$('detailView').style.display='block';renderGallery();renderDetail();renderBids();renderBidForm();window.scrollTo(0,0)}
+async function unlockBid(id){if(isAdmin()){var r=await OFA_API.revealBid(id,'');s.revealed[id]=r.amount;renderBids();return}openModal({badge:'BID REVEAL',title:'입찰 금액 확인',subtitle:'입찰 시 설정한 확인 비밀번호를 입력하세요.',submitText:'금액 확인',fields:[{name:'password',label:'확인 비밀번호',type:'password',placeholder:'비밀번호 입력'}],onSubmit:async function(v){var r=await OFA_API.revealBid(id,(v.password||'').trim());s.revealed[id]=r.amount;renderBids();toast('입찰 금액을 확인했습니다.');return true}})}
+async function submitBid(e){e.preventDefault();if(!(await needDealer(s.lotId)))return;var name=$('bidName').value.trim(),phone=$('bidPhone').value.trim(),amount=$('bidAmount').value.trim(),pw=$('bidPassword').value.trim(),cf=$('bidPasswordConfirm').value.trim();if(!name||!phone||!amount||!pw||!cf){toast('필수 항목을 입력하세요.');return}if(pw.length<4||pw!==cf){toast('확인 비밀번호를 다시 확인하세요.');return}await OFA_API.createBid(s.lotId,{who:name,phone:phone,amount:priceLabel(amount),amount_value:priceNum(amount),note:$('bidNote').value.trim(),reveal_password:pw});toast('입찰 요청이 접수됐습니다.');await refreshLots();await showDetail(s.lotId)}
+function showList(){s.lotId='';s.detail=null;syncQuery('');$('listView').style.display='block';$('detailView').style.display='none';$('adminView').style.display='none';renderList()}
+function renderBidInputs(){var w=$('bidEntries');w.innerHTML='';if(!s.bids.length)s.bids=[{id:'',who:'',amount:'',phone:'',note:'',created_at:new Date().toISOString()}];s.bids.forEach(function(b,i){var row=document.createElement('div');row.innerHTML='<div class="bid-entry"><input type="text" placeholder="입찰자" value="'+esc(b.who||'')+'" oninput="auctionApp.updateBid('+i+',\'who\',this.value)"><input type="text" placeholder="금액" value="'+esc(b.amount||'')+'" oninput="auctionApp.updateBid('+i+',\'amount\',this.value)"><input type="text" placeholder="연락처" value="'+esc(b.phone||'')+'" oninput="auctionApp.updateBid('+i+',\'phone\',this.value)"><button class="rm" type="button" onclick="auctionApp.removeBid('+i+')">×</button></div>';w.appendChild(row)})}
+function renderMgmt(){var w=$('lotMgmtList');w.innerHTML='';if(!s.lots.length){w.innerHTML='<div class="empty">등록된 매물이 없습니다.</div>';return}s.lots.forEach(function(lot){var item=document.createElement('div');item.className='item';item.innerHTML='<div class="thumb-sm">'+thumb((lot.images||[])[0],lot.title)+'</div><div class="item-info"><div class="item-title">'+esc(lot.title)+'</div><div class="item-sub">'+esc((lot.type||'미분류')+' · 입찰 '+String(lot.bidCount||0)+'건'+(lot.sold?' · 매각완료':' · 경매중'))+'</div></div><div class="item-btns"><button class="mini edit" type="button" onclick="auctionApp.editLot(\''+esc(lot.id)+'\')">수정</button><button class="mini toggle'+(lot.sold?' sold':'')+'" type="button" onclick="auctionApp.toggleSold(\''+esc(lot.id)+'\','+String(!lot.sold)+')">'+(lot.sold?'경매중으로':'매각완료')+'</button><button class="mini del" type="button" onclick="auctionApp.deleteLot(\''+esc(lot.id)+'\')">삭제</button></div>';w.appendChild(item)})}
+async function refreshDealers(){if(!isAdmin()){s.dealers=[];renderDealers();return}s.dealers=await OFA_API.listDealers();renderDealers()}
+function renderDealers(){var w=$('dealerList');w.innerHTML='';if(!s.dealers.length){w.innerHTML='<div class="empty">등록된 업체 계정이 없습니다.</div>';return}s.dealers.forEach(function(d){var item=document.createElement('div');item.className='item';item.innerHTML='<div class="item-info"><div class="item-title">'+esc(d.name||d.login_id)+'</div><div class="item-sub"><span class="dealer-id">'+esc(d.login_id)+'</span></div></div><div class="item-btns"><button class="mini edit" type="button" onclick="auctionApp.editDealer(\''+esc(d.id)+'\')">수정</button><button class="mini del" type="button" onclick="auctionApp.deleteDealer(\''+esc(d.id)+'\')">삭제</button></div>';w.appendChild(item)})}
+function buildSlots(){var w=$('imgSlots');w.innerHTML='';s.imgSlots.forEach(function(v,i){var slot=document.createElement('div');slot.className='img-slot';var input=document.createElement('input');input.type='file';input.accept='image/*';input.style.display='none';input.onchange=function(){uploadImg(i,input.files&&input.files[0])};slot.onclick=function(){input.click()};slot.innerHTML=v?'<img src="'+esc(v)+'" alt="차량 이미지"><div class="img-meta">사진 '+String(i+1)+' · 클릭해서 교체</div>':svg(22)+'<div>사진 '+String(i+1)+'</div><small>클릭해서 파일 업로드</small>';if(v){var clear=document.createElement('button');clear.type='button';clear.className='img-clear';clear.textContent='×';clear.onclick=function(e){e.stopPropagation();s.imgSlots[i]='';buildSlots()};slot.appendChild(clear)}slot.appendChild(input);w.appendChild(slot)})}
+function compress(file){return new Promise(function(res,rej){var r=new FileReader();r.onload=function(){var img=new Image();img.onload=function(){var w=img.width,h=img.height,m=1400;if(w>h&&w>m){h=Math.round(h*(m/w));w=m}else if(h>m){w=Math.round(w*(m/h));h=m}var c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);res(c.toDataURL('image/jpeg',0.82))};img.onerror=rej;img.src=r.result};r.onerror=rej;r.readAsDataURL(file)})}
+async function uploadImg(i,file){
+if(!file)return;
+try{
+var compressed=await compress(file);
+if(useStorage()){
+var uploaded=await OFA_API.uploadImageDataUrl(compressed);
+s.imgSlots[i]=uploaded.publicUrl;
+toast('이미지를 Storage에 업로드했습니다.');
+}else{
+s.imgSlots[i]=compressed;
+toast('Storage 버킷이 없어 임시 방식으로 저장합니다.');
+}
+buildSlots();
+}catch(err){toast(errorText(err)||'이미지 처리에 실패했습니다.')}
+}
+function resetLotForm(){s.editLotId='';$('editingId').textContent='';$('deleteLotBtn').style.display='none';['af-title','af-year','af-km','af-fuel','af-region','af-desc'].forEach(function(id){$(id).value=''});$('af-type').value='';$('af-badgeColor').value='bc-red';$('af-sold').checked=false;s.imgSlots=['','','','',''];s.bids=[];buildSlots();renderBidInputs()}
+async function editLot(id){var payload=await OFA_API.getLotDetail(id),lot=payload.lot||{};s.editLotId=lot.id;$('editingId').textContent='수정중';$('deleteLotBtn').style.display='flex';$('af-title').value=lot.title||'';$('af-year').value=lot.year||'';$('af-km').value=lot.km||'';$('af-fuel').value=lot.fuel||'';$('af-type').value=lot.type||'';$('af-badgeColor').value=lot.badgeColor||'bc-red';$('af-region').value=lot.region||'';$('af-desc').value=lot.desc||'';$('af-sold').checked=!!lot.sold;s.imgSlots=['','','','',''];(lot.images||[]).slice(0,5).forEach(function(src,i){s.imgSlots[i]=src});buildSlots();s.bids=(payload.bids||[]).map(function(b){return{id:b.id||'',who:b.who||'',amount:b.amount||'',phone:b.phone||'',note:b.note||'',reveal_hash:b.reveal_hash||'',created_at:b.created_at||new Date().toISOString()}});renderBidInputs()}
+async function saveLot(){var title=$('af-title').value.trim(),type=$('af-type').value.trim();if(!title){toast('차량명을 입력하세요.');return}if(!type){toast('사고유형을 선택하세요.');return}await OFA_API.upsertLot({id:s.editLotId||'',title:title,year:$('af-year').value.trim(),km:$('af-km').value.trim(),fuel:$('af-fuel').value.trim(),type:type,badgeColor:$('af-badgeColor').value,region:$('af-region').value.trim(),desc:$('af-desc').value.trim(),images:s.imgSlots.filter(Boolean),sold:$('af-sold').checked,bids:s.bids.filter(function(b){return String(b.who||'').trim()||String(b.amount||'').trim()}).map(function(b){return{id:b.id||'',who:String(b.who||'').trim(),phone:String(b.phone||'').trim(),amount:priceLabel(b.amount||''),amount_value:priceNum(b.amount||''),note:String(b.note||'').trim(),reveal_hash:b.reveal_hash||'',created_at:b.created_at||new Date().toISOString()}}).sort(bidSort)});toast(s.editLotId?'매물을 수정했습니다.':'매물을 등록했습니다.');resetLotForm();await refreshLots()}
+async function deleteLot(id){var target=id||s.editLotId;if(!target)return;if(!confirm('이 매물을 삭제하시겠습니까?'))return;await OFA_API.deleteLot(target);toast('매물을 삭제했습니다.');if(!id)resetLotForm();await refreshLots()}
+async function toggleSold(id,sold){await OFA_API.setLotSold(id,!!sold);toast(sold?'매각 완료 처리했습니다.':'경매중으로 변경했습니다.');await refreshLots()}
+async function saveDealer(){var loginId=$('dealer-id').value.trim(),name=$('dealer-name').value.trim(),pw=$('dealer-password').value.trim(),cf=$('dealer-password-confirm').value.trim();if(!loginId){toast('업체 아이디를 입력하세요.');return}if(!pw||pw.length<4||pw!==cf){toast('업체 비밀번호를 다시 확인하세요.');return}await OFA_API.upsertDealer({id:s.editDealerId||'',login_id:loginId,name:name||loginId,password:pw});toast(s.editDealerId?'업체 계정을 수정했습니다.':'업체 계정을 생성했습니다.');resetDealerForm();await refreshDealers()}
+function resetDealerForm(){s.editDealerId='';['dealer-id','dealer-name','dealer-password','dealer-password-confirm'].forEach(function(id){$(id).value=''})}
+function editDealer(id){var d=s.dealers.find(function(x){return x.id===id});if(!d)return;s.editDealerId=d.id;$('dealer-id').value=d.login_id||'';$('dealer-name').value=d.name||'';$('dealer-password').value='';$('dealer-password-confirm').value=''}
+async function deleteDealer(id){if(!confirm('이 업체 계정을 삭제하시겠습니까?'))return;await OFA_API.deleteDealer(id);toast('업체 계정을 삭제했습니다.');await refreshDealers()}
+async function init(){renderSetup();buildSlots();renderBidInputs();updateHeader();if(cfgMissing()){renderList();renderMgmt();return}try{await refreshSession();await refreshLots();if(isAdmin())await refreshDealers();var lotId=new URLSearchParams(window.location.search).get('lot');if(lotId&&canView())await showDetail(lotId)}catch(err){toast(errorText(err))}}
+window.auctionApp={prev:function(){s.g=(s.g-1+s.images.length)%s.images.length;renderGallery()},next:function(){s.g=(s.g+1)%s.images.length;renderGallery()},showDetail:showDetail,unlockBid:unlockBid,submitBid:submitBid,updateBid:function(i,k,v){if(s.bids[i])s.bids[i][k]=v},removeBid:function(i){s.bids.splice(i,1);renderBidInputs()},toggleSold:toggleSold,editLot:editLot,deleteLot:deleteLot,editDealer:editDealer,deleteDealer:deleteDealer,changeAdminPassword:function(){openModal({badge:'ADMIN SECURITY',title:'관리자 비밀번호 변경',subtitle:'새 비밀번호를 입력하세요.',submitText:'변경',fields:[{name:'password',label:'새 비밀번호',type:'password',placeholder:'4자리 이상'},{name:'confirm',label:'비밀번호 확인',type:'password',placeholder:'같은 비밀번호 재입력'}],onSubmit:async function(v){var pw=(v.password||'').trim();if(!pw||pw.length<4||pw!==v.confirm)throw new Error('INVALID_PASSWORD');await OFA_API.changeAdminPassword(pw);toast('관리자 비밀번호가 변경됐습니다.');return true}})}};
+window.showList=showList;window.openAdminLogin=openAdminLogin;window.handleDealerButton=dealerButton;window.handleAuthBackdrop=function(e){if(e.target===$('authBackdrop'))closeModal()};window.cancelAuthModal=closeModal;window.submitAuthModal=submitModal;window.toggleAdmin=async function(){if(!isAdmin()){await openAdminLogin();return}$('listView').style.display='none';$('detailView').style.display='none';$('adminView').style.display='block';await refreshDealers();renderMgmt()};window.addBidEntry=function(){s.bids.push({id:'',who:'',amount:'',phone:'',note:'',created_at:new Date().toISOString()});renderBidInputs()};window.saveLot=saveLot;window.deleteLot=deleteLot;window.resetForm=resetLotForm;window.changeAdminPassword=function(){return window.auctionApp.changeAdminPassword()};window.logoutAdmin=logout;window.saveDealerAccount=saveDealer;window.resetDealerForm=resetDealerForm;document.addEventListener('keydown',function(e){if(e.key==='Escape'&&$('authBackdrop').classList.contains('show'))closeModal()});document.addEventListener('DOMContentLoaded',init);
+})();
+
+</script>
+</head>
+<body>
+<div class="hd">
+  <div class="hd-l">
+    <div class="hd-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="hd-name" onclick="showList()" ondblclick="openAdminLogin()">?ㅽ넗?쎌뒪肄붾━??/div>
+    <div class="hd-sub">?ш퀬李?蹂댁븞 寃쎈ℓ</div>
+  </div>
+  <div class="hd-r">
+    <div class="hd-auth" id="authStatus">?낆껜 濡쒓렇???꾩슂</div>
+    <div class="hd-live"><div class="hd-dot"></div>?ㅼ떆媛?寃쎈ℓ以?/div>
+    <button class="hd-btn" id="dealerBtn" onclick="handleDealerButton()">?낆껜 濡쒓렇??/button>
+    <button class="hd-btn" id="adminBtn" onclick="toggleAdmin()" style="display:none">愿由ъ옄 ?⑤꼸</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="auth-backdrop" id="authBackdrop" onclick="handleAuthBackdrop(event)">
+  <div class="auth-modal">
+    <div class="auth-top">
+      <div class="auth-chip" id="authChip">蹂댁븞 ?몄쬆</div>
+      <button class="auth-close" type="button" onclick="cancelAuthModal()">횞</button>
+      <div class="auth-title" id="authTitle">濡쒓렇??/div>
+      <div class="auth-sub" id="authSub">?묒냽 ?뺣낫瑜??낅젰?섏꽭??</div>
+    </div>
+    <div class="auth-body">
+      <form id="authForm" onsubmit="submitAuthModal(event)">
+        <div class="auth-fields" id="authFields"></div>
+        <div class="auth-error" id="authError"></div>
+        <div class="auth-note" id="authNote" style="display:none"></div>
+        <div class="auth-actions">
+          <button class="auth-ghost" type="button" onclick="cancelAuthModal()">痍⑥냼</button>
+          <button class="auth-submit" type="submit" id="authSubmitBtn">?뺤씤</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="listView">
+  <div class="hero">
+    <h1>?ㅽ넗?쎌뒪肄붾━??<em>蹂댁븞 寃쎈ℓ</em></h1>
+    <p>?낆같 湲덉븸 ?몃? 鍮꾧났媛?쨌 怨좉컼 吏곸젒 ?낆같 쨌 ?낆껜 ?몄쬆 ???곸꽭 ?대엺</p>
+    <div class="stats">
+      <div class="stat">寃쎈ℓ以?<b id="activeCnt">0</b>媛?/div><div class="sep"></div>
+      <div class="stat">留ㅺ컖?꾨즺 <b id="soldCnt">0</b>媛?/div><div class="sep"></div>
+      <div class="stat">?꾩껜 <b id="totalCnt">0</b>媛?/div>
+    </div>
+    <div class="hero-note"><b>?묎렐 ?쒗븳:</b> ?낆껜 濡쒓렇???꾩뿉??李⑤웾 ?곸꽭 ?댁슜怨??낆같??紐⑤몢 李⑤떒?⑸땲?? 湲덉븸? 濡쒓렇???꾩뿉??蹂몄씤 沅뚰븳 ?먮뒗 愿由ъ옄 沅뚰븳?먯꽌留??뺤씤?⑸땲??</div>
+    <div class="hero-note warn" id="setupState"><b>?곌껐 ?ㅻ쪟:</b> Supabase ?ㅼ젙媛믪씠 鍮꾩뼱 ?덉뒿?덈떎. <code>ofa-supabase-config.js</code>瑜?癒쇱? ?낅젰?섍퀬 SQL ?명똿???꾨즺?댁빞 ?⑸땲??</div>
+  </div>
+  <div class="wrap"><div class="grid" id="listGrid"></div></div>
+</div>
+
+<div id="detailView">
+  <div class="detail">
+    <div class="back" onclick="showList()">??紐⑸줉?쇰줈</div>
+    <div class="detail-grid">
+      <div>
+        <div class="box gallery">
+          <div class="gallery-main" id="galleryMain"></div>
+          <div class="gallery-thumbs" id="galleryThumbs"></div>
+        </div>
+        <div class="box mt16">
+          <h2>李⑤웾 ?뺣낫</h2>
+          <table class="table" id="infoTable"></table>
+        </div>
+      </div>
+      <div class="side">
+        <div class="box" id="auctionCard"></div>
+        <div class="box">
+          <h3>?낆같 ?댁뿭</h3>
+          <div class="bid-list" id="bidList"></div>
+          <div class="guide">?몃? ?붾㈃?먯꽌???낆같 湲덉븸???④꺼吏묐땲?? <b>蹂몄씤 ?낆같 ???ㅼ젙???뺤씤 ?뷀샇</b>瑜??낅젰?섎㈃ ?대떦 湲덉븸留??뺤씤?????덇퀬, 愿由ъ옄 ?몄쬆 ???꾩껜 湲덉븸??蹂????덉뒿?덈떎.</div>
+          <div class="price" id="priceReveal" style="display:none"></div>
+        </div>
+        <div class="box form" id="bidFormCard"></div>
+        <div class="cta">
+          <a href="tel:01041027437" class="call">?뱸 010-4102-7437 ?꾪솕 ?곷떞</a>
+          <a href="https://pf.kakao.com/_your_id/chat" class="kakao"><svg width="18" height="17" viewBox="0 0 18 17" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M9 0C4.03 0 0 3.25 0 7.26c0 2.58 1.63 4.85 4.09 6.18L3.1 17l4.1-2.2c.58.08 1.18.13 1.8.13 4.97 0 9-3.25 9-7.27C18 3.25 13.97 0 9 0z" fill="#1a1a1a"/></svg>移댁뭅??梨꾨꼸 ?곷떞</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="adminView">
+  <div class="admin">
+    <div class="box">
+      <h2>愿由ъ옄 蹂댁븞</h2>
+      <div class="admin-note" id="securityNote">?댁쁺??踰꾩쟾? 釉뚮씪?곗? ??μ냼媛 ?꾨땲??Supabase DB瑜?湲곗??쇰줈 ?숈옉?⑸땲?? 媛숈? 怨꾩젙?대㈃ PC? 紐⑤컮?쇱씠 ?숈씪??留ㅻЪ/?낆같 ?곗씠?곕? 遊낅땲??</div>
+      <div class="admin-actions">
+        <button class="ghost" onclick="changeAdminPassword()">愿由ъ옄 鍮꾨?踰덊샇 蹂寃?/button>
+        <button class="ghost" onclick="logoutAdmin()">愿由ъ옄 濡쒓렇?꾩썐</button>
+      </div>
+    </div>
+
+    <div class="box mt16">
+      <h2>留ㅻЪ ?깅줉 <span id="editingId" style="font-size:11px;color:#8898aa;font-weight:700"></span></h2>
+      <div class="af-row"><div class="full">
+        <div class="label">李⑤웾紐?*</div><input class="af-input" id="af-title" placeholder="?? ?쒕꽕?쒖뒪 G80 ?꾩넀李⑤웾">
+      </div></div>
+      <div class="af-row">
+        <div><div class="label">?곗떇</div><input class="af-input" id="af-year" placeholder="2021??></div>
+        <div><div class="label">二쇳뻾嫄곕━</div><input class="af-input" id="af-km" placeholder="48,200km"></div>
+      </div>
+      <div class="af-row">
+        <div><div class="label">?곕즺</div><input class="af-input" id="af-fuel" placeholder="媛?붾┛ 3.5"></div>
+        <div><div class="label">?ш퀬?좏삎 *</div><select class="af-select" id="af-type"><option value="">?좏깮</option><option>?꾩넀李⑤웾</option><option>?뚯＜硫댁콉</option><option>移⑥닔李⑤웾</option><option>蹂댄뿕誘멸???/option><option>?곷?諛⑷낵??/option><option>誘몄닔?좎쿂由?/option><option>臾대낫?섏궗怨?/option><option>?붿옱?ш퀬</option></select></div>
+      </div>
+      <div class="af-row">
+        <div><div class="label">諛곗? 而щ윭</div><select class="af-select" id="af-badgeColor"><option value="bc-red">鍮④컯</option><option value="bc-blue">?뚮옉</option><option value="bc-orange">二쇳솴</option><option value="bc-teal">珥덈줉</option><option value="bc-navy">?ㅼ씠鍮?/option></select></div>
+        <div><div class="label">吏??/div><input class="af-input" id="af-region" placeholder="?쒖슱 媛뺣궓"></div>
+      </div>
+      <div class="af-row"><div class="full"><div class="label">李⑤웾 ?ㅻ챸</div><textarea class="af-txt" id="af-desc" placeholder="李⑤웾 ?곹깭, ?ш퀬 ?댁슜, ?뱀씠?ы빆 ?깆쓣 ?낅젰?섏꽭??"></textarea></div></div>
+      <div class="af-row"><div class="full"><div class="label">李⑤웾 ?ъ쭊 (理쒕? 5??</div><div class="img-slots" id="imgSlots"></div><div class="meta" style="margin-top:6px">`storageBucket`??鍮꾩썙?먮㈃ ?뺤텞 ?대?吏瑜?DB????ν븯怨? 媛믪쓣 ?ｌ쑝硫?Supabase Storage URL????ν빀?덈떎.</div></div></div>
+      <div class="af-row"><div class="full"><div class="label">?낆같 ?댁뿭 吏곸젒 ?섏젙</div><div class="bid-entries" id="bidEntries"></div><button class="add" onclick="addBidEntry()">+ ?낆같 ??ぉ 異붽?</button></div></div>
+      <div style="margin-top:8px"><label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#5a6a7e;cursor:pointer;"><input type="checkbox" id="af-sold" style="width:16px;height:16px;accent-color:#1a5de8;">留ㅺ컖 ?꾨즺 泥섎━</label></div>
+      <div style="margin-top:16px">
+        <button class="save" onclick="saveLot()">留ㅻЪ ??ν븯湲?/button>
+        <button class="del" id="deleteLotBtn" style="display:none" onclick="deleteLot()">??留ㅻЪ ??젣</button>
+        <button class="del" style="background:#f8faff;border-color:#d0d8ee;color:#5a6a7e;margin-top:6px" onclick="resetForm()">珥덇린??/button>
+      </div>
+    </div>
+
+    <div class="box mt16">
+      <h2>?낆껜 怨꾩젙 愿由?/h2>
+      <div class="admin-note">愿由ъ옄媛 ?낆껜???꾩씠?붿? 鍮꾨?踰덊샇瑜??앹꽦?⑸땲?? 媛숈? ?꾩씠?붾줈 ?ㅼ떆 ??ν븯硫?鍮꾨?踰덊샇媛 媛깆떊?⑸땲??</div>
+      <div class="af-row">
+        <div><div class="label">?낆껜 ?꾩씠??*</div><input class="af-input" id="dealer-id" placeholder="?? partner01"></div>
+        <div><div class="label">?낆껜紐?/div><input class="af-input" id="dealer-name" placeholder="?? 媛뺣궓?쒕윭?쇳꽣"></div>
+      </div>
+      <div class="af-row">
+        <div><div class="label">?낆껜 鍮꾨?踰덊샇 *</div><input type="password" class="af-input" id="dealer-password" placeholder="4???댁긽"></div>
+        <div><div class="label">鍮꾨?踰덊샇 ?뺤씤 *</div><input type="password" class="af-input" id="dealer-password-confirm" placeholder="?숈씪 鍮꾨?踰덊샇 ?ъ엯??></div>
+      </div>
+      <div class="admin-actions">
+        <button class="ghost" onclick="saveDealerAccount()">?낆껜 怨꾩젙 ???/button>
+        <button class="ghost" onclick="resetDealerForm()">?낆껜 怨꾩젙 ?낅젰 珥덇린??/button>
+      </div>
+      <div class="dealer-list" id="dealerList" style="margin-top:14px"><div class="empty">?앹꽦???낆껜 怨꾩젙???놁뒿?덈떎.</div></div>
+    </div>
+
+    <div class="box mt16">
+      <h2>?깅줉 留ㅻЪ 愿由?/h2>
+      <div class="mgmt" id="lotMgmtList"><div class="empty">?깅줉??留ㅻЪ???놁뒿?덈떎.</div></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+
